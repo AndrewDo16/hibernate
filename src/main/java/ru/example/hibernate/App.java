@@ -3,7 +3,9 @@ package ru.example.hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import ru.example.hibernate.model.Director;
 import ru.example.hibernate.model.Item;
+import ru.example.hibernate.model.Movie;
 import ru.example.hibernate.model.Person;
 
 import java.lang.reflect.Array;
@@ -20,7 +22,9 @@ public class App
     public static void main( String[] args ) {
         Configuration configuration = new Configuration()
                 .addAnnotatedClass(Person.class)
-                .addAnnotatedClass(Item.class);
+                .addAnnotatedClass(Item.class)
+                .addAnnotatedClass(Director.class)
+                .addAnnotatedClass(Movie.class);
 
 
         SessionFactory sessionFactory = configuration.buildSessionFactory();
@@ -29,16 +33,11 @@ public class App
         try {
             session.beginTransaction();
 
-            Person person = session.get(Person.class,2);
+            Director director = session.get(Director.class, 2);
 
-            List<Item> items = person.getItems();
+            Movie movie = director.getMovies().remove(2);
 
-            for (Item item:items) {
-                session.remove(item);
-            }
-
-            person.getItems().clear();
-
+            session.remove(movie);
 
             session.getTransaction().commit();
 

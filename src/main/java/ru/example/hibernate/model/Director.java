@@ -19,7 +19,7 @@ public class Director {
     @Column(name = "age")
     int age;
 
-    @OneToMany(mappedBy = "")
+    @OneToMany(mappedBy = "directors")
     private List<Movie> movies;
 
 
@@ -63,5 +63,13 @@ public class Director {
                 ", Name='" + Name + '\'' +
                 ", age=" + age +
                 '}';
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
     }
 }
